@@ -1,6 +1,5 @@
 package com.example.riotgametrack.screens
 
-import android.graphics.drawable.Icon
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,18 +7,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -43,13 +38,26 @@ import com.example.riotgametrack.getUserData
 import com.example.riotgametrack.nicknameKey
 import com.example.riotgametrack.screen
 import com.example.riotgametrack.tagKey
+import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(navController: NavHostController) {
     var nickname by rememberSaveable { mutableStateOf("") }
     var tag by rememberSaveable { mutableStateOf("") }
+    var isEnabled by remember { mutableStateOf(true) }
     val btnLabel = remember{mutableStateOf("Login")}
+
+    LaunchedEffect(isEnabled) {
+        if (isEnabled) return@LaunchedEffect
+        else {
+            delay(1000L)
+            login(navController, nickname, tag)
+            nickname = ""
+            tag = ""
+        }
+        isEnabled = true
+    }
 
     Box(
         modifier = Modifier
@@ -97,8 +105,12 @@ fun LoginScreen(navController: NavHostController) {
                     .width(200.dp)
                     .padding(top = 300.dp)
                     .clip(RoundedCornerShape(18.dp)),
+                enabled = isEnabled,
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF63D0FF)),
-                onClick = {login(navController, nickname, tag)}
+                onClick = {
+                    isEnabled = false
+
+                }
             ) {
                 Text(btnLabel.value, fontSize = 18.sp, color = Color.Black)
             }
@@ -113,7 +125,7 @@ fun login(navController: NavHostController, nickname: String, tag: String){
         user.getValue("puuid")
         navController.navigate(route = screen.Riot.passArgs(nickname = nickname, tag = tag))
     }catch (_: Exception){
-        //TODO: how to announce user?
+
     }
 }
 

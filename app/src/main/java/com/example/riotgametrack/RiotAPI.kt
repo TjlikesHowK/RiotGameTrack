@@ -10,7 +10,7 @@ import kotlinx.serialization.json.jsonObject
 import okhttp3.OkHttpClient
 import okhttp3.Request
 
-const val apiKey = "RGAPI-5dc6ba33-1c00-46a4-b980-d0b3ba33747a"
+const val apiKey = "RGAPI-1e183a63-53e0-4302-89ab-5ec075b5ae64"
 
 fun getUserData(nickname: String, tag: String): JsonObject {
     return runBlocking {
