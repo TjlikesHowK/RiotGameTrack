@@ -1,0 +1,27 @@
+package com.example.riotgametrack.screens
+
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.tooling.preview.Preview
+import com.example.riotgametrack.ui.theme.RiotGameTrackTheme
+
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            RiotGameTrackTheme {
+                StartNavigation()
+            }
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun GreetingPreview() {
+    RiotGameTrackTheme {
+        StartNavigation()
+    }
+}
