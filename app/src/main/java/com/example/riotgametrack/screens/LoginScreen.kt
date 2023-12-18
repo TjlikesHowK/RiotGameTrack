@@ -113,7 +113,7 @@ fun login(navController: NavHostController, nickname: String, tag: String){
         user.getValue("puuid")
         navController.navigate(route = screen.Riot.passArgs(nickname = nickname, tag = tag))
     }catch (_: Exception){
-
+        //TODO: how to announce user?
     }
 }
 
